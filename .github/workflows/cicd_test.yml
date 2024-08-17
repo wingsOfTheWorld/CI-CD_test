@@ -1,8 +1,9 @@
 on: push
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
-    - run: ls
-    - run: python -v
+  python-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python -v
+      - run: pip install --no-cache-dir -r requirements.txt
