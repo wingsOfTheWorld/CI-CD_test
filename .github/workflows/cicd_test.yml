@@ -1,9 +1,17 @@
+name: 运行CI/CDtest项目
+
 on: push
 
 jobs:
   python-build:
+    name: flask运行工作
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: python -v
-      - run: pip install --no-cache-dir -r requirements.txt
+      - name: 读取仓库内容
+        uses: actions/checkout@v4
+
+      - name: 安装依赖
+        run: pip install --no-cache-dir -r requirements.txt
+
+      - name: 运行项目
+        run: python app.py
