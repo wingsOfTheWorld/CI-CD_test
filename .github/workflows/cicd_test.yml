@@ -32,8 +32,8 @@ jobs:
       - name: 配置 kubectl
         run: aws eks update-kubeconfig --region us-west-1 --name test
 
-      - name: 验证 Kubernetes 配置
-        run: kubectl cluster-info
+#      - name: 验证 Kubernetes 配置
+#        run: kubectl cluster-info
 
       - name: 更新 Kubernetes Deployment
         run: |
