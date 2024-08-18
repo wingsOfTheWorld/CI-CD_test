@@ -21,3 +21,13 @@ jobs:
         with:
           push: true
           tags: wufei222/cicd-test:${{ github.ref_name }}
+
+      - name: 设置 KUBECONFIG
+        run:
+          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+
+      - name: 更新 Kubernetes 部署
+        run: |
+          kubectl set image deployment/cicd-test-deployment cicd-test-container=wufei222/cicd-test:${{ github.ref_name }}
+        env:
+          KUBECONFIG: $HOME/.kube/config
