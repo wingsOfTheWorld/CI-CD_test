@@ -23,7 +23,7 @@ jobs:
           tags: wufei222/cicd-test:${{ github.ref_name }}
 
       - name: 配置 AWS 凭据
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -34,10 +34,9 @@ jobs:
         with:
           cluster-name: test
 
-      - name: 验证 Kubernetes configuration
+      - name: 验证 Kubernetes 配置
         run: kubectl cluster-info
 
-      - name: 上传 Kubernetes Deployment
+      - name: 更新 Kubernetes Deployment
         run: |
           kubectl set image deployment/cicd-test-deployment cicd-test-container=wufei222/cicd-test:${{ github.ref_name }}
-
