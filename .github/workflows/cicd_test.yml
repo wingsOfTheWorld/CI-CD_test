@@ -37,13 +37,19 @@ jobs:
         run: mkdir -p $HOME/.kube
 
       - name: 设置 KUBECONFIG
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-          echo "KUBECONFIG 内容如下:"
-          cat $HOME/.kube/config
+        run: echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+
+      - name: 打印 KUBECONFIG 文件内容
+        run: cat $HOME/.kube/config
+
+      - name: 测试 Kubernetes 连接
+        run: kubectl get nodes
+        env:
+          KUBECONFIG: $HOME/.kube/config
 
       - name: 更新 Kubernetes 部署
         run: |
           kubectl set image deployment/cicd-test-deployment cicd-test-container=wufei222/cicd-test:${{ github.ref_name }}
         env:
           KUBECONFIG: $HOME/.kube/config
+
