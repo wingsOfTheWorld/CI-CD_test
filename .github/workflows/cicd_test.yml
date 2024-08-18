@@ -22,12 +22,18 @@ jobs:
           push: true
           tags: wufei222/cicd-test:${{ github.ref_name }}
 
+      - name: 配置 AWS 凭据
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+
       - name: 创建 .kube 目录
         run: mkdir -p $HOME/.kube
 
       - name: 设置 KUBECONFIG
-        run:
-          echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        run: echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
 
       - name: 更新 Kubernetes 部署
         run: |
