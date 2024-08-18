@@ -29,27 +29,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-1
 
-      - name: 验证 AWS CLI 配置
-        run: |
-          aws sts get-caller-identity
+      - name: 配置 kubectl
+        uses: aws-actions/configure-kubeconfig@v2
+        with:
+          cluster-name: test
 
-      - name: 创建 .kube 目录
-        run: mkdir -p $HOME/.kube
+      - name: 验证 Kubernetes configuration
+        run: kubectl cluster-info
 
-      - name: 设置 KUBECONFIG
-        run: echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-
-      - name: 打印 KUBECONFIG 文件内容
-        run: cat $HOME/.kube/config
-
-      - name: 测试 Kubernetes 连接
-        run: kubectl get nodes
-        env:
-          KUBECONFIG: $HOME/.kube/config
-
-      - name: 更新 Kubernetes 部署
+      - name: 上传 Kubernetes Deployment
         run: |
           kubectl set image deployment/cicd-test-deployment cicd-test-container=wufei222/cicd-test:${{ github.ref_name }}
-        env:
-          KUBECONFIG: $HOME/.kube/config
 
