@@ -10,5 +10,5 @@ def hello_flask():
 
 # 启动应用
 if __name__ == '__main__':
-    print('版本更新5')
+    print('版本更新6')
     app.run(host='0.0.0.0', port=5000, debug=True)
